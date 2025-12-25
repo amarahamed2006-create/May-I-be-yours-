@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>One Question 💕</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+  color: #ff4d6d;
+}
+
+#typing {
+  min-height: 70px;
+  font-size: 16px;
+}
+
+.photos img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin: 5px;
+}
+
+.buttons {
+  margin-top: 20px;
+  position: relative;
+  height: 80px;
+}
+
+button {
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.6s ease;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+  left: 30%;
+}
+
+#noBtn {
+  background: #ddd;
+  color: black;
+  left: 55%;
+  animation: shake 1.5s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.heart {
+  position: fixed;
+  font-size: 20px;
+  animation: float 3s linear forwards;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-300px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="bestpart.mp3" loop></audio>
+
+<div class="card">
+  <h1>Hey You 💕</h1>
+
+  <div id="typing"></div>
+
+  <div class="photos">
+    <img src="pic1.jpg">
+    <img src="pic2.jpg">
+    <img src="pic3.jpg">
+  </div>
+
+  <h2>May I be your boyfriend? 🥹💖</h2>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😐</button>
+  </div>
+</div>
+
+<script>
+/* Typing effect */
+const text =
+"I like you. Like… a lot 😌\n" +
+"I like your laugh, your chaos,\n" +
+"and how everything feels easier with you.\n\n" +
+"So I have one important question…";
+
+let i = 0;
+const typingDiv = document.getElementById("typing");
+
+function typeText() {
+  if (i < text.length) {
+    typingDiv.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+    i++;
+    setTimeout(typeText, 40);
+  }
+}
+typeText();
+
+/* Music on first tap */
+const music = document.getElementById("bgMusic");
+document.body.addEventListener("click", () => {
+  music.play();
+}, { once: true });
+
+/* No button logic */
+const noBtn = document.getElementById("noBtn");
+let noCount = 0;
+
+noBtn.addEventListener("mouseover", handleNo);
+noBtn.addEventListener("click", handleNo);
+
+function handleNo() {
+  if (navigator.vibrate) {
+    navigator.vibrate([100, 50, 100]);
+  }
+
+  const x = Math.random() * 260;
+  const y = Math.random() * 50;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  noCount++;
+
+  if (noCount === 3) {
+    noBtn.innerText = "Are you sure? 😳";
+  }
+  if (noCount === 5) {
+    noBtn.innerText = "Maybe yes… 👀";
+    noBtn.style.background = "#ffb3c1";
+  }
+  if (noCount >= 7) {
+    noBtn.innerText = "Yes 💖";
+    noBtn.style.background = "#ff4d6d";
+    noBtn.style.color = "white";
+    noBtn.onclick = sayYes;
+  }
+}
+
+/* YES */
+document.getElementById("yesBtn").addEventListener("click", sayYes);
+
+function sayYes() {
+  for (let i = 0; i < 50; i++) createHeart();
+
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+      font-family:Arial;
+    ">
+      <h1 style="color:#ff4d6d;">IT’S OFFICIAL 😭💖</h1>
+      <p style="font-size:18px; max-width:300px;">
+        Thank you for saying yes.  
+        I promise love, laughs, and being yours ❤️
+      </p>
+    </div>
+  `;
+}
+
+/* Hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.bottom = "0";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 3000);
+}
+</script>
+
+</body>
+</html>
