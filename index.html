@@ -16,6 +16,7 @@ body {
   overflow: hidden;
 }
 
+/* Card */
 .card {
   background: white;
   padding: 25px;
@@ -35,6 +36,7 @@ h1 {
   font-size: 16px;
 }
 
+/* Photos */
 .photos img {
   width: 90px;
   height: 90px;
@@ -43,6 +45,7 @@ h1 {
   margin: 5px;
 }
 
+/* Buttons */
 .buttons {
   margin-top: 20px;
   position: relative;
@@ -72,6 +75,7 @@ button {
   animation: shake 1.5s infinite;
 }
 
+/* Shake */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-2px); }
@@ -80,6 +84,7 @@ button {
   100% { transform: translateX(0); }
 }
 
+/* Hearts */
 .heart {
   position: fixed;
   font-size: 20px;
@@ -90,29 +95,57 @@ button {
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(-300px); opacity: 0; }
 }
+
+/* Pop animation */
+.pop {
+  animation: popIn 0.8s ease forwards;
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+.delay {
+  animation-delay: 0.4s;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>
 </head>
 
 <body>
 
+<!-- Music (stays alive) -->
 <audio id="bgMusic" src="Daniel Caesar - Best Part (Audio) ft. H.E.R..mp3" loop></audio>
 
-<div class="card">
-  <h1>HAIIII MAMAAAA 💕</h1>
+<div id="app">
+  <div class="card">
+    <h1>HAIIII MAMAAAA 💕</h1>
 
-  <div id="typing"></div>
+    <div id="typing"></div>
 
-  <div class="photos">
-    <img src="IMG_0720.jpeg">
-    <img src="A6CF5496-D09C-4F9A-9F52-855CFD9A3511.jpeg">
-    <img src="IMG_3385.jpeg">
-  </div>
+    <div class="photos">
+      <img src="IMG_0720.jpeg">
+      <img src="A6CF5496-D09C-4F9A-9F52-855CFD9A3511.jpeg">
+      <img src="IMG_3385.jpeg">
+    </div>
 
-  <h2>May I be your boyfriend? 😋🩷</h2>
+    <h2>May I be your boyfriend? 😋🩷</h2>
 
-  <div class="buttons">
-    <button id="yesBtn">Yes 💗</button>
-    <button id="noBtn">No 😔</button>
+    <div class="buttons">
+      <button id="yesBtn">Yes 💗</button>
+      <button id="noBtn">No 😔</button>
+    </div>
   </div>
 </div>
 
@@ -142,7 +175,7 @@ document.body.addEventListener("click", () => {
   music.play();
 }, { once: true });
 
-/* No button logic */
+/* No button chaos */
 const noBtn = document.getElementById("noBtn");
 let noCount = 0;
 
@@ -154,16 +187,12 @@ function handleNo() {
     navigator.vibrate([100, 50, 100]);
   }
 
-  const x = Math.random() * 260;
-  const y = Math.random() * 50;
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  noBtn.style.left = Math.random() * 260 + "px";
+  noBtn.style.top = Math.random() * 50 + "px";
 
   noCount++;
 
-  if (noCount === 3) {
-    noBtn.innerText = "Are you sure? 😔";
-  }
+  if (noCount === 3) noBtn.innerText = "Are you sure? 😔";
   if (noCount === 5) {
     noBtn.innerText = "Just say yes 💣";
     noBtn.style.background = "#ffb3c1";
@@ -180,9 +209,9 @@ function handleNo() {
 document.getElementById("yesBtn").addEventListener("click", sayYes);
 
 function sayYes() {
-  for (let i = 0; i < 50; i++) createHeart();
+  const app = document.getElementById("app");
 
-  document.body.innerHTML = `
+  app.innerHTML = `
     <div style="
       height:100vh;
       display:flex;
@@ -193,18 +222,22 @@ function sayYes() {
       background:linear-gradient(135deg,#ffdde1,#ee9ca7);
       font-family:Arial;
     ">
-      <h1 style="color:#ff4d6d; margin-bottom:5px;">
-  IT’S OFFICIAL!! 😝❤️
-</h1>
-<h2 style="color:#ff4d6d; margin-top:0;">
-  IM YOUR BOYFRIEND 🧎🏽‍♂️🥰
-</h2>
-      <p style="font-size:18px; max-width:300px;">
-        Thank you for everything and for letting me be yours. 
+      <h1 class="pop" style="color:#ff4d6d;">
+        IT’S OFFICIAL!! 😝❤️
+      </h1>
+      <h2 class="pop delay" style="color:#ff4d6d;">
+        IM YOUR BOYFRIEND 🧎🏽‍♂️🥰
+      </h2>
+      <p class="pop delay" style="font-size:18px; max-width:300px;">
+        Thank you for everything and for letting me be yours.  
         I promise to love you forevah and evah, have endless laughs, and to be yours ❤️
       </p>
     </div>
   `;
+
+  setTimeout(() => {
+    for (let i = 0; i < 50; i++) createHeart();
+  }, 800);
 }
 
 /* Hearts */
